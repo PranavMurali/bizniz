@@ -2,13 +2,13 @@
 
 import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "@/components/login-form"
-import { LogoutButton, LoginButton } from "@/components/ui/auth/auth-buttons";
+import { LogoutButton } from "@/components/ui/auth/auth-buttons";
 import { auth } from "@/auth";
 import Link from "next/link";
 
 export default async function LoginPage() {
   const session = await auth();
-  console.log(session)
+  console.log("session",session)
   if (session) {
     return (
       <div>

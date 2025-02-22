@@ -1,0 +1,1 @@
+ALTER TABLE "businessCard" ADD PRIMARY KEY ("ownedBy");
