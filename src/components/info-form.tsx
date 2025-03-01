@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { getBusinessCard } from "@/actions/getBusinessCard"
 import { Textarea } from "./ui/textarea"
-
+import { useRouter } from 'next/navigation'
 
 
 export const infoFormSchema = z.object({
@@ -58,6 +58,7 @@ export const alertSchema = z.object({
 })
 
 export function ProfileInfoForm() {
+  const router = useRouter()
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [alert, setAlert] = useState<z.infer<typeof alertSchema>>({
@@ -202,58 +203,58 @@ export function ProfileInfoForm() {
                 />
               </div>
               <div className="col-span-6 md:col-span-2 lg:col-span-3">
-              <FormField
-                control={form.control}
-                name="website"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Website</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Website" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Your company's website URL.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="website"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Website</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Website" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Your company's website URL.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
-          </div>
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Address</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="Address" {...field} />
-                </FormControl>
-                <FormDescription>
-                  Your business address.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Submit</Button>
-        </form>
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Address" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Your business address.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Submit</Button>
+          </form>
         </Form>
-  )
-}
+      )
+      }
 
-<AlertDialogContent>
-  <AlertDialogHeader>
-    <AlertDialogTitle>{alert?.title}</AlertDialogTitle>
-    <AlertDialogDescription>
-      {alert?.message}
-    </AlertDialogDescription>
-  </AlertDialogHeader>
-  <AlertDialogFooter>
-    <AlertDialogCancel>Cancel</AlertDialogCancel>
-    <AlertDialogAction>Continue</AlertDialogAction>
-  </AlertDialogFooter>
-</AlertDialogContent>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{alert?.title}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {alert?.message}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => { setOpen(false) }}>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={() => { router.push("/") }}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
     </AlertDialog >
   )
 }

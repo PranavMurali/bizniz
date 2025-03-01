@@ -6,6 +6,7 @@ import {
   AnimatePresence
 } from "framer-motion";
 import { sourceCodePro400 } from "@/styles/fonts";
+import { IconBrandBehance, IconBrandGithub, IconBrandLinkedin, IconBrandTwitter, IconBrandWhatsapp } from "@tabler/icons-react";
 
 function Card({ cardCount, frontCard, drag, setActiveCardKey, children, onPress }) {
   const [exitX, setExitX] = useState(0);
@@ -100,6 +101,13 @@ export function GlareCard({ cards }) {
               <p className="text-gray-600 mb-2 text-xl italic">{card.position}</p>
               <p className="text-gray-600 mb-2 text-xl underline">{card.email}</p>
               <p className="text-gray-600 text-xl">{card.phone}</p>
+              <div className="flex flex-row justify-space-between ">
+                <IconBrandWhatsapp className="text-4xl" />
+                <IconBrandLinkedin className="text-4xl" />
+                <IconBrandGithub className="text-4xl" />
+                <IconBrandBehance className="text-4xl" />
+                <IconBrandTwitter className="text-4xl" />
+              </div>
             </div>
           </Card>
         ))}

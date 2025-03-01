@@ -2,10 +2,17 @@
 
 import { signIn, signOut } from "@/auth";
 
-console.log("auth", signIn, signOut);
-export const login = async () => {
+export const githublogin = async () => {
   await signIn("github", { redirectTo: "/" });
 };
+
+export const googlelogin = async () => {
+  try{
+    await signIn("google");
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export const logout = async () => {
   await signOut({ redirectTo: "/" });

@@ -20,4 +20,5 @@ export const businessCards = pgTable("businessCard", {
   company: text("company"),
   website: text("website"),
   address: text("address"),
+  // tags: text("tags").array(),
 });
