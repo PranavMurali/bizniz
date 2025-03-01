@@ -29,6 +29,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { getBusinessCard } from "@/actions/getBusinessCard"
+import { Textarea } from "./ui/textarea"
 
 
 
@@ -103,8 +104,8 @@ export function ProfileInfoForm() {
       {isLoading ? <div>Loading...</div> : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="grid grid-cols-12 gap-4">
-              <div className="col-span-6">
+            <div className="grid md:grid-cols-4 lg:grid-cols-6 gap-4">
+              <div className="col-span-6 md:col-span-2 lg:col-span-3">
                 <FormField
                   control={form.control}
                   name="name"
@@ -122,7 +123,7 @@ export function ProfileInfoForm() {
                   )}
                 />
               </div>
-              <div className="col-span-6">
+              <div className="col-span-6 md:col-span-2 lg:col-span-3">
                 <FormField
                   control={form.control}
                   name="email"
@@ -142,8 +143,8 @@ export function ProfileInfoForm() {
               </div>
             </div>
 
-            <div className="grid grid-cols-12 gap-4">
-              <div className="col-span-6">
+            <div className="grid md:grid-cols-4 lg:grid-cols-6 gap-4">
+              <div className="col-span-6 md:col-span-2 lg:col-span-3">
                 <FormField
                   control={form.control}
                   name="title"
@@ -161,7 +162,7 @@ export function ProfileInfoForm() {
                   )}
                 />
               </div>
-              <div className="col-span-6">
+              <div className="col-span-6 md:col-span-2 lg:col-span-3">
                 <FormField
                   control={form.control}
                   name="phone"
@@ -180,71 +181,79 @@ export function ProfileInfoForm() {
                 />
               </div>
             </div>
-            <FormField
-              control={form.control}
-              name="company"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Company" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    The name of your company.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="website"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Website</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Website" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Your company's website URL.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Address" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Your business address.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Submit</Button>
-          </form>
-        </Form>
-      )}
 
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{alert?.title}</AlertDialogTitle>
-          <AlertDialogDescription>
-            {alert?.message}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+            <div className="grid md:grid-cols-4 lg:grid-cols-6 gap-4">
+              <div className="col-span-6 md:col-span-2 lg:col-span-3">
+                <FormField
+                  control={form.control}
+                  name="company"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Company" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        The name of your company.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="col-span-6 md:col-span-2 lg:col-span-3">
+              <FormField
+                control={form.control}
+                name="website"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Website</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Website" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Your company's website URL.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Address" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Your business address.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Submit</Button>
+        </form>
+        </Form>
+  )
+}
+
+<AlertDialogContent>
+  <AlertDialogHeader>
+    <AlertDialogTitle>{alert?.title}</AlertDialogTitle>
+    <AlertDialogDescription>
+      {alert?.message}
+    </AlertDialogDescription>
+  </AlertDialogHeader>
+  <AlertDialogFooter>
+    <AlertDialogCancel>Cancel</AlertDialogCancel>
+    <AlertDialogAction>Continue</AlertDialogAction>
+  </AlertDialogFooter>
+</AlertDialogContent>
+    </AlertDialog >
   )
 }

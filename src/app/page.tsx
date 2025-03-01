@@ -3,7 +3,38 @@
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { GlareCard } from "@/components/ui/glare-card";
 import { IconHome, IconNewSection } from "@tabler/icons-react";
-import {sourceCodePro400, greatVibes } from '@/styles/fonts'
+
+type CardData = {
+  title: string;
+  name: string;
+  position: string;
+  email: string;
+  phone: string;
+};
+
+const cardData: CardData[] = [
+  {
+    title: "Business Name",
+    name: "John Doe",
+    position: "CEO",
+    email: "johndoe@example.com",
+    phone: "+1 234 567 890",
+  },
+  {
+    title: "MONKE",
+    name: "John Doe",
+    position: "CEO",
+    email: "johndoe@example.com",
+    phone: "+1 234 567 890",
+  },
+  {
+    title: "FAFAF",
+    name: "John Doe",
+    position: "CEO",
+    email: "johndoe@example.com",
+    phone: "+1 234 567 890",
+  },
+];
 
 export default function Page() {
   const links = [
@@ -14,7 +45,6 @@ export default function Page() {
       ),
       href: "/",
     },
-
     {
       title: "Auth",
       icon: (
@@ -22,21 +52,14 @@ export default function Page() {
       ),
       href: "/let-me-in",
     },
-
   ];
+
   return (
     <div className="flex justify-center items-center h-screen flex-col gap-4">
-      <GlareCard>
-        <div className="p-4 flex flex-col">
-            <h2 className={`text-3xl ${sourceCodePro400.className}`}>Business Name</h2>
-            <p className="text-gray-700 mb-2 text-3xl font-semibold">John Doe</p>
-            <p className="text-gray-600 mb-2 text-xl italic">CEO</p>
-            <p className="text-gray-600 mb-2 text-xl underline">johndoe@example.com</p>
-            <p className="text-gray-600 text-xl">+1 234 567 890</p>
-        </div>
-      </GlareCard>
-      <FloatingDock
-        items={links} />
+      <GlareCard cards={cardData} />
+      <div className="mt-10 z-10">
+        <FloatingDock items={links} />
+      </div>
     </div>
-  )
+  );
 }

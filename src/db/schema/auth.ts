@@ -6,14 +6,8 @@ import {
   primaryKey,
   integer,
 } from "drizzle-orm/pg-core"
-import postgres from "postgres"
-import { drizzle } from "drizzle-orm/postgres-js"
 import type { AdapterAccountType } from "next-auth/adapters"
- 
-const connectionString = process.env.AUTH_DRIZZLE_URL || "";
-const pool = postgres(connectionString, { max: 1 })
- 
-export const db = drizzle(pool)
+
  
 export const users = pgTable("user", {
   id: text("id")
@@ -97,19 +91,3 @@ export const authenticators = pgTable(
     },
   ]
 )
-
-export const businessCards = pgTable("businessCard", {
-  id: text("id")
-    .$defaultFn(() => crypto.randomUUID()),
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  name: text("name"),
-  ownedBy: text("ownedBy").notNull().references(() => users.id).primaryKey(),
-  title: text("title"),
-  email: text("email"),
-  phone: text("phone"),
-  company: text("company"),
-  website: text("website"),
-  address: text("address"),
-});

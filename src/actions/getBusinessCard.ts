@@ -1,6 +1,8 @@
 "use server";
 import { auth } from "@/auth";
-import { businessCards, db } from "@/db/schema"
+import { db } from "@/db/config";
+import { businessCards} from "@/db/schema/cards"
+
 import { eq } from 'drizzle-orm';
 
 export const getBusinessCard = async () => {

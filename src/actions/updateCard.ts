@@ -1,7 +1,8 @@
 "use server";
 import { auth } from "@/auth";
 import { infoFormSchema } from "@/components/info-form";
-import { businessCards, db} from "@/db/schema"
+import { businessCards} from "@/db/schema/cards"
+import { db } from "@/db/config";
 import { z } from "zod";
 
 export const updateCard = async (values: z.infer<typeof infoFormSchema> )=> {
