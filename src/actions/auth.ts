@@ -8,8 +8,9 @@ export const githublogin = async () => {
 
 export const googlelogin = async () => {
   try{
-    await signIn("google");
+    await signIn("google", { redirectTo: "/" });
   } catch (error) {
+    //FIXME: CURRENT ISSUE WITH NEXT AUTH but /api/auth/signin works
     console.error(error);
   }
 }

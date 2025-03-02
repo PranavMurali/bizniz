@@ -1,8 +1,10 @@
 'use client'
 
+import { getBusinessCard } from "@/actions/getBusinessCard";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { GlareCard } from "@/components/ui/glare-card";
 import { IconHome, IconNewSection } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 
 type CardData = {
   title: string;
@@ -12,31 +14,16 @@ type CardData = {
   phone: string;
 };
 
-const cardData: CardData[] = [
-  {
-    title: "Business Name",
-    name: "John Doe",
-    position: "CEO",
-    email: "johndoe@example.com",
-    phone: "+1 234 567 890",
-  },
-  {
-    title: "MONKE",
-    name: "John Doe",
-    position: "CEO",
-    email: "johndoe@example.com",
-    phone: "+1 234 567 890",
-  },
-  {
-    title: "FAFAF",
-    name: "John Doe",
-    position: "CEO",
-    email: "johndoe@example.com",
-    phone: "+1 234 567 890",
-  },
-];
-
 export default function Page() {
+  const [bCard, setBCard] = useState<CardData>([])
+  useEffect(() => {
+    async function fetchData() {
+      const card = await getBusinessCard()
+      setBCard(card)
+    }
+    fetchData()
+  }, [])
+
   const links = [
     {
       title: "Home",
@@ -56,7 +43,8 @@ export default function Page() {
 
   return (
     <div className="flex justify-center items-center h-screen flex-col gap-4">
-      <GlareCard cards={cardData} />
+
+      <GlareCard cards={bCard} />
       <div className="mt-10 z-10">
         <FloatingDock items={links} />
       </div>

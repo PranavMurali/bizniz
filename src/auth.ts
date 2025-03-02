@@ -5,7 +5,19 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "./db/config";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  providers: [GitHub, Google],
+  providers: [
+    GitHub,
+    Google({
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+          code_challenge_method: "S256",
+        },
+      },
+    }),
+  ],
   session: { strategy: "jwt" },
   adapter: DrizzleAdapter(db),
   callbacks: {
