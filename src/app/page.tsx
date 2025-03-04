@@ -16,6 +16,7 @@ type CardData = {
 
 export default function Page() {
   const [bCard, setBCard] = useState<CardData>([])
+
   useEffect(() => {
     async function fetchData() {
       const card = await getBusinessCard()

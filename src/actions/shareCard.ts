@@ -5,20 +5,20 @@ import { businessCards } from "@/db/schema/cards";
 
 import { eq } from "drizzle-orm";
 
-export const shareCard = async ({ shareid }) => {
+export const shareCard = async ({ shareid }: { shareid: string }) => {
   const sharedCard = await db
     .select()
     .from(businessCards)
     .where(eq(businessCards.id, shareid));
-  console.log(sharedCard);
-  const card = sharedCard[0];
 
-  if (!card) {
+  if (sharedCard.length === 0) {
     throw new Error("Card not found");
   }
 
-  const user = await auth();
-  if (!user) {
+  const card = sharedCard[0];
+  const session = await auth();
+
+  if (!session) {
     throw new Error("User not authenticated");
   }
 
@@ -26,9 +26,17 @@ export const shareCard = async ({ shareid }) => {
   const newCard = {
     ...cardWithoutId,
     ownerId: card.ownedBy,
-    userId: user.user.id,
+    userId: session.user.id,
   };
 
-  await db.insert(businessCards).values(newCard);
-  return card;
+  const similarCard = await db
+    .select()
+    .from(businessCards)
+    .where(eq(businessCards.id, id));
+
+  if (similarCard.length > 0) {
+    await db.update(businessCards).set(newCard).where(eq(businessCards.id, id));
+  } else {
+    await db.insert(businessCards).values(newCard);
+  }
 };

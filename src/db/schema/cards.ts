@@ -4,7 +4,7 @@ import { users } from "./auth";
 export const businessCards = pgTable("businessCard", {
   id: text("id")
     .$defaultFn(() => crypto.randomUUID())
-    .primaryKey(),
+    .primaryKey().unique(),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -19,5 +19,4 @@ export const businessCards = pgTable("businessCard", {
   website: text("website"),
   address: text("address"),
   sharelink: text("sharelink"),
-  tags: text("tags").array(),
 });

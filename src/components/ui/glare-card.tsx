@@ -7,8 +7,9 @@ import {
 } from "framer-motion";
 import { sourceCodePro400 } from "@/styles/fonts";
 import { IconBrandBehance, IconBrandGithub, IconBrandLinkedin, IconBrandTwitter, IconBrandWhatsapp } from "@tabler/icons-react";
+import EmptyCard from "../empty-card";
 
-function Card({ cardCount, frontCard, drag, setActiveCardKey, children, onPress }) {
+export function Card({ cardCount, frontCard, drag, setActiveCardKey, children, onPress }) {
   const [exitX, setExitX] = useState(0);
 
   const x = useMotionValue(0);
@@ -86,32 +87,37 @@ export function GlareCard({ cards }) {
   return (
     <motion.div style={{ width: 300, height: 500, position: "relative" }} className="justify-center align-middle content-center mx-auto flex">
       <AnimatePresence initial={false}>
-        {cards.map((card, i) => (
-          <Card
-            key={i}
-            cardCount={cards.length}
-            frontCard={i === activeCardKey}
-            setActiveCardKey={setActiveCardKey}
-            drag="x"
-            onPress={() => setActiveCardKey(i)}
-          >
-            <div key={card.key} className="p-4 flex flex-col">
-              <h2 className={`text-3xl ${sourceCodePro400.className}`}>{card.title}</h2>
-              <p className="text-gray-700 mb-2 text-3xl font-semibold">{card.name}</p>
-              <p className="text-gray-600 mb-2 text-xl italic">{card.position}</p>
-              <p className="text-gray-600 mb-2 text-xl underline">{card.email}</p>
-              <p className="text-gray-600 text-xl">{card.phone}</p>
-              <div className="flex flex-row justify-space-between ">
-                <IconBrandWhatsapp className="text-4xl" />
-                <IconBrandLinkedin className="text-4xl" />
-                <IconBrandGithub className="text-4xl" />
-                <IconBrandBehance className="text-4xl" />
-                <IconBrandTwitter className="text-4xl" />
-              </div>
-            </div>
-          </Card>
-        ))}
+        {cards.length === 0 ? (
+          <EmptyCard />
+        ) : (
+          <>
+            {cards.map((card, i) => (
+              <Card
+                key={i}
+                cardCount={cards.length}
+                frontCard={i === activeCardKey}
+                setActiveCardKey={setActiveCardKey}
+                drag="x"
+                onPress={() => setActiveCardKey(i)}
+              >
+                <div key={card.key} className="p-4 flex flex-col">
+                  <h2 className={`text-3xl ${sourceCodePro400.className}`}>{card.title}</h2>
+                  <p className="text-gray-700 mb-2 text-3xl font-semibold">{card.name}</p>
+                  <p className="text-gray-600 mb-2 text-xl italic">{card.position}</p>
+                  <p className="text-gray-600 mb-2 text-xl underline">{card.email}</p>
+                  <p className="text-gray-600 text-xl">{card.phone}</p>
+                  <div className="flex flex-row justify-space-between ">
+                    <IconBrandWhatsapp className="text-4xl" />
+                    <IconBrandLinkedin className="text-4xl" />
+                    <IconBrandGithub className="text-4xl" />
+                    <IconBrandBehance className="text-4xl" />
+                    <IconBrandTwitter className="text-4xl" />
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </>)}
       </AnimatePresence>
-    </motion.div>
+    </motion.div >
   );
 }
