@@ -10,6 +10,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { IconSearch } from '@tabler/icons-react';
+import { Separator } from './ui/separator';
+import { ScrollArea } from './ui/scroll-area';
 
 export function SearchForm({ setActiveCard }) {
     const [isLoading, setIsLoading] = useState(true)
@@ -32,8 +34,6 @@ export function SearchForm({ setActiveCard }) {
             console.log(values)
             const res = await searchContacts(values)
             setResult(res)
-            console.log(res, "SEARCH")
-            setActiveCard(res[0].id)
         }
         catch (e) {
             console.error(e)
@@ -41,7 +41,7 @@ export function SearchForm({ setActiveCard }) {
     }
 
     return (
-        <div>
+        <div className='w-96'>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 flex flex-row">
                     <FormField
@@ -60,19 +60,24 @@ export function SearchForm({ setActiveCard }) {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit">Search</Button>
                 </form>
             </Form>
-            <div>
-                {result.length > 0 && result.map((res, i) => (
-                    <div key={i}>
-                        <p>{res.name}</p>
-                        <p>{res.title}</p>
-                        <p>{res.email}</p>
-                        <p>{res.phone}</p>
-                    </div>
-                ))}
-            </div>
+
+            <ScrollArea className="rounded-md border mt-2">
+                {result.length > 0 && (
+                    <div className="p-4">
+                        {result.map((res, i) => (
+                            <div key={i}>
+                                <button className="text-sm" onClick={() => setActiveCard(res.id)}>
+                                    {res.name} - {res.title} - {res.company}
+                                </button>
+                                {i !== result.length - 1 &&
+                                    <Separator className="my-2" />
+                                }
+                            </div>
+                        ))}
+                    </div>)}
+            </ScrollArea>
         </div>
     );
 };

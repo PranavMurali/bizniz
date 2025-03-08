@@ -86,6 +86,7 @@ export function GlareCard({ cards, activeCardId }) {
   const [activeCardKey, setActiveCardKey] = useState(0);
 
   useEffect(() => {
+    console.log("activeCardId", activeCardId, cards);
     const scrollToCard = (id) => {
       const cardIndex = cards.findIndex(card => card.id === id);
       if (cardIndex !== -1) {
@@ -93,7 +94,7 @@ export function GlareCard({ cards, activeCardId }) {
       }
     };
     scrollToCard(activeCardId);
-  }, [activeCardId]);
+  }, [activeCardId, cards]);
 
 
 

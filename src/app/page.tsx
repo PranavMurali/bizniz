@@ -1,5 +1,6 @@
 'use client'
 
+import { logout } from "@/actions/auth";
 import { getBusinessCard } from "@/actions/getBusinessCard";
 import SearchForm from "@/components/search-form";
 import { LogoutButton } from "@/components/ui/auth/auth-buttons";
@@ -49,16 +50,25 @@ export default function Page() {
       ),
       href: "/let-me-in",
     },
+    {
+      title: "Bye",
+      icon: (
+        <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ),
+      href: "",
+      onClick: () => {
+        logout()
+      }
+    }
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-10">
-      <LogoutButton/>
-      <SearchForm setActiveCard={setActiveCard}/>
+    <div className="flex flex-col items-center justify-center h-full gap-10 mt-20">
+      <SearchForm setActiveCard={setActiveCard} />
       <div className="flex justify-center items-center flex-col gap-4">
         {loading ? <div>Loading...</div> :
           <>
-            <GlareCard cards={bCard} activeCardId={activeCard}/>
+            <GlareCard cards={bCard} activeCardId={activeCard} />
             <div className="mt-10 z-10">
               <FloatingDock items={links} />
             </div>

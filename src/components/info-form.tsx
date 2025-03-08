@@ -79,8 +79,10 @@ export function ProfileInfoForm() {
   useEffect(() => {
     async function fetchData() {
       const bCard = await getBusinessCard()
-      form.reset(bCard[0])
-      setTags(bCard[0].tags)
+      if (bCard.length > 0) {
+        form.reset(bCard[0])
+        setTags(bCard[0].tags)
+      }
       setIsLoading(false)
     }
     fetchData()
