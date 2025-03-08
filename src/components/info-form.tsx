@@ -31,6 +31,7 @@ import {
 import { getBusinessCard } from "@/actions/getBusinessCard"
 import { Textarea } from "./ui/textarea"
 import { useRouter } from 'next/navigation'
+import { Tag, TagInput } from 'emblor';
 
 
 export const infoFormSchema = z.object({
@@ -45,6 +46,12 @@ export const infoFormSchema = z.object({
   company: z.string().optional(),
   website: z.string().optional(),
   address: z.string().optional(),
+  tags: z.array(
+    z.object({
+      id: z.string(),
+      text: z.string(),
+    }),
+  ),
 })
 
 export const alertSchema = z.object({
@@ -61,6 +68,8 @@ export function ProfileInfoForm() {
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [tags, setTags] = useState<Tag[]>([])
+  const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
   const [alert, setAlert] = useState<z.infer<typeof alertSchema>>({
     type: "success",
     title: "",
@@ -78,7 +87,19 @@ export function ProfileInfoForm() {
 
   const form = useForm<z.infer<typeof infoFormSchema>>({
     resolver: zodResolver(infoFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      title: "",
+      phone: "",
+      company: "",
+      website: "",
+      address: "",
+      tags: [],
+    }
   })
+
+  const { setValue } = form;
 
   async function onSubmit(values: z.infer<typeof infoFormSchema>) {
     try {
@@ -99,6 +120,7 @@ export function ProfileInfoForm() {
     }
     setOpen(true)
   }
+
 
   return (
     <AlertDialog open={open}>
@@ -237,12 +259,50 @@ export function ProfileInfoForm() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-start">
+                  <FormLabel className="text-left">Topics</FormLabel>
+                  <FormControl className="w-full">
+                    <TagInput
+                      {...field}
+                      placeholder="Enter a topic"
+                      tags={tags}
+                      setTags={(newTags) => {
+                        setTags(newTags);
+                        setValue('tags', newTags as [Tag, ...Tag[]]);
+                      }}
+                      activeTagIndex={activeTagIndex}
+                      setActiveTagIndex={setActiveTagIndex}
+                      textStyle={
+                        "bold"
+                      }
+                      shape={
+                        "rounded"
+                      }
+                      styleClasses={
+                        {
+                          tag: {
+                            body: "pl-2",
+                          }
+                        }
+                      }
+                    />
+                  </FormControl>
+                  <FormDescription className="text-left">
+                    These are the topics that you&apos;re interested in.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button type="submit">Submit</Button>
           </form>
         </Form>
       )
       }
-
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{alert?.title}</AlertDialogTitle>

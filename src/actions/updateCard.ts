@@ -48,6 +48,7 @@ const insertNewContact = async (userId: string, cardId: string) => {
 };
 
 export const updateCard = async (values: z.infer<typeof infoFormSchema>) => {
+  console.log("Updating card", values.tags);
   const session = await auth();
   if (!session) {
     throw new Error("Authentication failed");

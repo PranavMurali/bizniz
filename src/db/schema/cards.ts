@@ -1,5 +1,6 @@
 import { pgTable, text } from "drizzle-orm/pg-core";
 import { users } from "./auth";
+import { jsonb } from "drizzle-orm/pg-core";
 
 export const businessCards = pgTable("businessCard", {
   id: text("id")
@@ -16,5 +17,7 @@ export const businessCards = pgTable("businessCard", {
   website: text("website"),
   address: text("address"),
   shareslug: text("shareslug")
-        .$defaultFn(() => Math.random().toString(36).substring(2, 12))
+    .$defaultFn(() => Math.random().toString(36).substring(2, 12)),
+  tags: jsonb("tags").notNull(),
 });
+
