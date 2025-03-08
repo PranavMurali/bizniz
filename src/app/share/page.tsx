@@ -9,17 +9,14 @@ import Image from 'next/image'
 export default function SearchBar() {
     const params = useSearchParams()
     const router = useRouter()
-    const search = params.get('id')
+    const shareslug = params.get('id')
 
     useEffect(() => {
-        if (search) {
-            const par = new URLSearchParams();
-            shareCard({ shareid: search })
-            par.set("status", "added-new-card");
-            router.push(
-                `/?${par.toString()}`)
+        if (shareslug) {
+            shareCard({ shareslug })
+            router.push("/")
         }
-    }, [router, search])
+    }, [router, shareslug])
 
     return (
         <div className="h-screen flex flex-col justify-center items-center">

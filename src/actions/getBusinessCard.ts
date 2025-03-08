@@ -1,12 +1,32 @@
 "use server";
 import { auth } from "@/auth";
 import { db } from "@/db/config";
-import { businessCards} from "@/db/schema/cards"
-
-import { eq } from 'drizzle-orm';
+import { businessCards } from "@/db/schema/cards";
+import { contacts } from "@/db/schema/contacts";
+import { eq } from "drizzle-orm";
 
 export const getBusinessCard = async () => {
-    const session = await auth();
-    const card = await db.select().from(businessCards).where(eq(businessCards.userId, session?.user?.id ?? ""))
-    return card
-}
+  const contactCards: Array<{
+    id: string;
+    name: string | null;
+    email: string | null;
+    userId: string;
+    title: string | null;
+    phone: string | null;
+    company: string | null;
+    website: string | null;
+    address: string | null;
+    shareslug: string | null;
+  }> = [];
+
+  const session = await auth();
+  const cards = await db
+    .select()
+    .from(contacts)
+    .where(eq(contacts.user, session?.user?.id ?? ""))
+    .innerJoin(businessCards, eq(contacts.cardId, businessCards.id));
+  cards.forEach((card) => {
+    contactCards.push(card.businessCard);
+  });
+  return contactCards;
+};

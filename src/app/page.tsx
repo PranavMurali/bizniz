@@ -7,15 +7,19 @@ import { IconHome, IconNewSection } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
 type CardData = {
-  title: string;
-  name: string;
-  position: string;
-  email: string;
-  phone: string;
+  id: string;
+  title: string | null;
+  name: string | null;
+  position?: string;
+  email: string | null;
+  phone: string | null;
+  company?: string | null;
+  website?: string | null;
+  address?: string | null;
 };
 
 export default function Page() {
-  const [bCard, setBCard] = useState<CardData>([])
+  const [bCard, setBCard] = useState<CardData[]>([])
 
   useEffect(() => {
     async function fetchData() {

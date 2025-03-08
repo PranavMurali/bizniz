@@ -8,10 +8,10 @@ import {
 import { sourceCodePro400 } from "@/styles/fonts";
 import { IconBrandBehance, IconBrandGithub, IconBrandLinkedin, IconBrandTwitter, IconBrandWhatsapp } from "@tabler/icons-react";
 import EmptyCard from "../empty-card";
+import { useRouter } from "next/navigation";
 
 export function Card({ cardCount, frontCard, drag, setActiveCardKey, children, onPress }) {
   const [exitX, setExitX] = useState(0);
-
   const x = useMotionValue(0);
   const scale = useTransform(x, [-150, 0, 150], [0.5, 1, 0.5]);
   const rotate = useTransform(x, [-150, 0, 150], [-45, 0, 45], {
@@ -83,6 +83,7 @@ export function Card({ cardCount, frontCard, drag, setActiveCardKey, children, o
 
 export function GlareCard({ cards }) {
   const [activeCardKey, setActiveCardKey] = useState(0);
+  const { push } = useRouter();
 
   return (
     <motion.div style={{ width: 300, height: 500, position: "relative" }} className="justify-center align-middle content-center mx-auto flex">
@@ -107,11 +108,15 @@ export function GlareCard({ cards }) {
                   <p className="text-gray-600 mb-2 text-xl underline">{card.email}</p>
                   <p className="text-gray-600 text-xl">{card.phone}</p>
                   <div className="flex flex-row justify-space-between ">
-                    <IconBrandWhatsapp className="text-4xl" />
-                    <IconBrandLinkedin className="text-4xl" />
-                    <IconBrandGithub className="text-4xl" />
-                    <IconBrandBehance className="text-4xl" />
-                    <IconBrandTwitter className="text-4xl" />
+                    <IconBrandWhatsapp className="text-4xl" onClick={
+                      () => {
+                        navigator.clipboard.writeText(window.location.href + `share?id=${card?.shareslug}`);
+                      }
+                    } />
+                    {/* <IconBrandLinkedin className="text-4xl" /> */}
+                    {/* <IconBrandGithub className="text-4xl" /> */}
+                    {/* <IconBrandBehance className="text-4xl" /> */}
+                    {/* <IconBrandTwitter className="text-4xl" /> */}
                   </div>
                 </div>
               </Card>

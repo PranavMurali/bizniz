@@ -2,41 +2,41 @@
 import { auth } from "@/auth";
 import { db } from "@/db/config";
 import { businessCards } from "@/db/schema/cards";
+import { contacts } from "@/db/schema/contacts";
+import { eq, and } from "drizzle-orm";
 
-import { eq } from "drizzle-orm";
-
-export const shareCard = async ({ shareid }: { shareid: string }) => {
+export const shareCard = async ({ shareslug }: { shareslug: string }) => {
   const sharedCard = await db
     .select()
     .from(businessCards)
-    .where(eq(businessCards.id, shareid));
+    .where(eq(businessCards.shareslug, shareslug));
 
   if (sharedCard.length === 0) {
     throw new Error("Card not found");
   }
 
   const card = sharedCard[0];
+  const cardId = card.id;
   const session = await auth();
 
   if (!session) {
     throw new Error("User not authenticated");
   }
 
-  const { id, ...cardWithoutId } = card;
-  const newCard = {
-    ...cardWithoutId,
-    ownerId: card.ownedBy,
-    userId: session.user.id,
-  };
-
-  const similarCard = await db
+  const similarContact = await db
     .select()
-    .from(businessCards)
-    .where(eq(businessCards.id, id));
+    .from(contacts)
+    .where(
+      and(eq(contacts.user, session.user.id), eq(contacts.cardId, cardId))
+    );
 
-  if (similarCard.length > 0) {
-    await db.update(businessCards).set(newCard).where(eq(businessCards.id, id));
+  if (similarContact.length > 0) {
+    return 1;
   } else {
-    await db.insert(businessCards).values(newCard);
+    await db.insert(contacts).values({
+      user: session.user.id,
+      cardId: cardId,
+      contact: card?.userId,
+    });
   }
 };
