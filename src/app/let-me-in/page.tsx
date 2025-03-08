@@ -2,20 +2,15 @@
 
 import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "@/components/login-form"
-import { LogoutButton } from "@/components/ui/auth/auth-buttons";
 import { auth } from "@/auth";
-import Link from "next/link";
+import { redirect } from 'next/navigation'
+
 
 export default async function LoginPage() {
   const session = await auth();
   console.log("session",session)
   if (session) {
-    return (
-      <div>
-        <Link href="/me">User Info</Link>
-        <LogoutButton />
-      </div>
-    )
+    redirect("/me");
   }
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">

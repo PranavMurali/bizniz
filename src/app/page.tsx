@@ -20,11 +20,12 @@ type CardData = {
 
 export default function Page() {
   const [bCard, setBCard] = useState<CardData[]>([])
-
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchData() {
       const card = await getBusinessCard()
       setBCard(card)
+      setLoading(false)
     }
     fetchData()
   }, [])
@@ -48,11 +49,14 @@ export default function Page() {
 
   return (
     <div className="flex justify-center items-center h-screen flex-col gap-4">
+      {loading ? <div>Loading...</div> :
+        <>
+          <GlareCard cards={bCard} />
+          <div className="mt-10 z-10">
+            <FloatingDock items={links} />
+          </div>
+        </>}
 
-      <GlareCard cards={bCard} />
-      <div className="mt-10 z-10">
-        <FloatingDock items={links} />
-      </div>
     </div>
   );
 }

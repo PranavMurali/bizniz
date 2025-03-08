@@ -83,7 +83,6 @@ export function Card({ cardCount, frontCard, drag, setActiveCardKey, children, o
 
 export function GlareCard({ cards }) {
   const [activeCardKey, setActiveCardKey] = useState(0);
-  const { push } = useRouter();
 
   return (
     <motion.div style={{ width: 300, height: 500, position: "relative" }} className="justify-center align-middle content-center mx-auto flex">
