@@ -80,6 +80,7 @@ export function ProfileInfoForm() {
     async function fetchData() {
       const bCard = await getBusinessCard()
       form.reset(bCard[0])
+      setTags(bCard[0].tags)
       setIsLoading(false)
     }
     fetchData()

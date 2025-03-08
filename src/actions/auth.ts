@@ -16,5 +16,5 @@ export const googlelogin = async () => {
 }
 
 export const logout = async () => {
-  await signOut({ redirectTo: "/" });
+  await signOut({ redirectTo: "/let-me-in" });
 };

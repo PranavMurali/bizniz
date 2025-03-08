@@ -17,6 +17,7 @@ export const getBusinessCard = async () => {
     website: string | null;
     address: string | null;
     shareslug: string | null;
+    tags: string[],
   }> = [];
 
   const session = await auth();
@@ -26,7 +27,10 @@ export const getBusinessCard = async () => {
     .where(eq(contacts.user, session?.user?.id ?? ""))
     .innerJoin(businessCards, eq(contacts.cardId, businessCards.id));
   cards.forEach((card) => {
-    contactCards.push(card.businessCard);
+    contactCards.push({
+      ...card.businessCard,
+      tags: card.businessCard?.tags as string[],
+    });
   });
   return contactCards;
 };

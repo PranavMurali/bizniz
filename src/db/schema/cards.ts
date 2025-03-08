@@ -1,6 +1,5 @@
-import { pgTable, text } from "drizzle-orm/pg-core";
+import { json, pgTable, text } from "drizzle-orm/pg-core";
 import { users } from "./auth";
-import { jsonb } from "drizzle-orm/pg-core";
 
 export const businessCards = pgTable("businessCard", {
   id: text("id")
@@ -18,6 +17,6 @@ export const businessCards = pgTable("businessCard", {
   address: text("address"),
   shareslug: text("shareslug")
     .$defaultFn(() => Math.random().toString(36).substring(2, 12)),
-  tags: jsonb("tags").notNull(),
+  tags: json("tags").notNull(),
 });
 
