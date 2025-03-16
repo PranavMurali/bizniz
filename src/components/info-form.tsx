@@ -52,6 +52,8 @@ export const infoFormSchema = z.object({
       text: z.string(),
     }),
   ),
+  shareception: z.boolean().optional(),
+  info_visibility: z.array(z.string())
 })
 
 export const alertSchema = z.object({
@@ -99,6 +101,17 @@ export function ProfileInfoForm() {
       website: "",
       address: "",
       tags: [],
+      shareception: true,
+      info_visibility: [
+        "name",
+        "title",
+        "email",
+        "phone",
+        "company",
+        "address",
+        "tags",
+        "website"
+      ],
     }
   })
 

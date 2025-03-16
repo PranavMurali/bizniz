@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { greatVibes, sourceCodePro400 } from "@/styles/fonts";
+import { IconPhone, IconShare } from "@tabler/icons-react";
 import {
+  AnimatePresence,
   motion,
   useMotionValue,
-  useTransform,
-  AnimatePresence
+  useTransform
 } from "framer-motion";
-import { sourceCodePro400 } from "@/styles/fonts";
-import { IconBrandBehance, IconBrandGithub, IconBrandLinkedin, IconBrandTwitter, IconBrandWhatsapp } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 import EmptyCard from "../empty-card";
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
+import { enqueueSnackbar } from 'notistack'
+
 
 export function Card({ cardCount, frontCard, drag, setActiveCardKey, children, onPress }) {
   const [exitX, setExitX] = useState(0);
@@ -96,8 +97,6 @@ export function GlareCard({ cards, activeCardId }) {
     scrollToCard(activeCardId);
   }, [activeCardId, cards]);
 
-
-
   return (
     <motion.div style={{ width: 300, height: 500, position: "relative" }} className="justify-center align-middle content-center mx-auto flex">
       <AnimatePresence initial={false}>
@@ -114,31 +113,41 @@ export function GlareCard({ cards, activeCardId }) {
                 drag="x"
                 onPress={() => setActiveCardKey(i)}
               >
-                {console.log("carda", card, i)}
                 <div key={card.key} className="p-4 flex flex-col">
-                  <h2 className={`text-3xl ${sourceCodePro400.className}`}>{card.title}</h2>
-                  <p className="text-gray-700 mb-2 text-3xl font-semibold">{card.name}</p>
-                  <p className="text-gray-600 mb-2 text-xl italic">{card.position}</p>
-                  <p className="text-gray-600 mb-2 text-xl underline">{card.email}</p>
-                  <p className="text-gray-600 text-xl">{card.phone}</p>
-                  <div className="flex flex-row justify-space-between ">
-                    <IconBrandWhatsapp className="text-4xl" onClick={
-                      () => {
-                        navigator.clipboard.writeText(window.location.href + `share?id=${card?.shareslug}`);
-                      }
-                    } />
-                    {/* <IconBrandLinkedin className="text-4xl" /> */}
-                    {/* <IconBrandGithub className="text-4xl" /> */}
-                    {/* <IconBrandBehance className="text-4xl" /> */}
-                    {/* <IconBrandTwitter className="text-4xl" /> */}
+                  <div className="flex flex-row justify-between">
+                    <h2 className={`mb-2 text-3xl font-semibold ${sourceCodePro400.className} ${!card.info_visibility.includes('name') && "blur-md"}`}>{
+                      card.info_visibility.includes('name') ? card.name : "You Sneaky"
+                    }</h2>
+                    {card.shareception && card.info_visibility.length >= 0 && (
+                      <IconShare className="text-4xl" onClick={() => {
+                        if (card.info_visibility.length === 0) {
+                          enqueueSnackbar("Please enable some info to share", { variant: "error", preventDuplicate: true });
+                        }
+                        else {
+                          navigator.clipboard.writeText(window.location.href + `share?id=${card?.shareslug}`);
+                          enqueueSnackbar("Link copied to clipboard", { variant: "success", preventDuplicate: true });
+                        }
+                      }} />
+                    )}
                   </div>
-                  <div className="flex bottom-10 absolute gap-2 flex-col">
+                  <p className={`text-2xl mb-2 ${greatVibes.className}  ${!card.info_visibility.includes('title') && "blur-md"}`}>{card.info_visibility.includes('title') ? card.title : "Why you lookin at this"}</p>
+                  <p className={`mb-2 text-xl underline ${!card.info_visibility.includes('email') && "blur-md"}`}>{card.info_visibility.includes('email') ? card.email : "Inspector 🔍"}</p>
+                  <div className={`flex flex-row gap-2 mt-2 ${!card.info_visibility.includes('phone') && "blur-md"}`}>
+                    <IconPhone className="text-4xl" />
+                    <p className="text-gray-600 text-xl">{card.info_visibility.includes('phone') ? card.phone : "911"}</p>
+                  </div>
+                  <p>{card.info_visibility.length === 0 ? "No information available right now" : null}</p>
+                  <div className={`flex bottom-10 absolute gap-2 flex-col ${!card.info_visibility.includes('tags') && "blur-md"}`}>
                     <div>
-                      {
-                        card.tags.map(({ text, id }: { text: string, id: number }) => (
-                          <Badge key={id} variant="outline" className="text-sm">{text}</Badge>
-                        ))
-                      }
+                      {card.info_visibility.includes('tags') ? (
+                        <div>
+                          {card.tags.map(({ text, id }: { text: string, id: number }) => (
+                            <Badge key={id} variant="outline" className="text-sm">{text}</Badge>
+                          ))}
+                        </div>
+                      ) : (
+                        <Badge key={"911"} variant="outline" className="text-sm">no</Badge>
+                      )}
                     </div>
                   </div>
                 </div>

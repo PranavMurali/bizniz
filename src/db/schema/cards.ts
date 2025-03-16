@@ -1,4 +1,4 @@
-import { json, pgTable, text } from "drizzle-orm/pg-core";
+import { boolean, json, pgTable, text } from "drizzle-orm/pg-core";
 import { users } from "./auth";
 
 export const businessCards = pgTable("businessCard", {
@@ -17,6 +17,8 @@ export const businessCards = pgTable("businessCard", {
   address: text("address"),
   shareslug: text("shareslug")
     .$defaultFn(() => Math.random().toString(36).substring(2, 12)),
+  shareception: boolean("shareception").notNull(),
+  info_visibility: text("info_visibility").array().notNull(),
   tags: json("tags").notNull(),
 });
 

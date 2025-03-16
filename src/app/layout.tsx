@@ -1,7 +1,10 @@
+"use client"
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
+import { SnackbarProvider} from 'notistack'
 
-export default function RootLayout({ children, session }: RootLayoutProps) {
+export default function RootLayout({ children }: RootLayoutProps) {
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -11,6 +14,7 @@ export default function RootLayout({ children, session }: RootLayoutProps) {
           defaultTheme="dark"
           enableSystem
         >
+          <SnackbarProvider />
           {children}
         </ThemeProvider>
       </body>

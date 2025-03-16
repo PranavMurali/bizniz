@@ -7,7 +7,7 @@ import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { contacts } from "@/db/schema/contacts";
 
-const getExistingCard = async (userId: string) => {
+export const getExistingCard = async (userId: string) => {
   return await db
     .select()
     .from(businessCards)

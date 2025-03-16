@@ -7,7 +7,7 @@ export default async function UserInfo() {
   const session = await auth();
 
   return (
-    <CardSpotlight className="w-full justify-center items-center">
+    <CardSpotlight className="h-full w-full justify-center items-center">
       {session?.user?.image && (
         <div className="h-40 w-40 rounded-full bg-white flex justify-center items-center mx-auto relative z-20">
           <Image
@@ -27,7 +27,7 @@ export default async function UserInfo() {
         {session?.user?.email}
       </p>
       <div className="relative z-20 mt-5">
-        <ProfileInfoForm />
+        <ProfileInfoForm/>
       </div>
     </CardSpotlight>
   );

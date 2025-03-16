@@ -36,6 +36,13 @@
       "when": 1740932655473,
       "tag": "0004_amusing_mister_fear",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1742135181565,
+      "tag": "0005_daily_lilith",
+      "breakpoints": true
     }
   ]
 }

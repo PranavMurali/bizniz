@@ -17,7 +17,9 @@ export const getBusinessCard = async () => {
     website: string | null;
     address: string | null;
     shareslug: string | null;
-    tags: string[],
+    tags: string[];
+    shareception: boolean;
+    info_visibility: string[];
   }> = [];
 
   const session = await auth();
@@ -27,6 +29,19 @@ export const getBusinessCard = async () => {
     .where(eq(contacts.user, session?.user?.id ?? ""))
     .innerJoin(businessCards, eq(contacts.cardId, businessCards.id));
   cards.forEach((card) => {
+    if (card.businessCard.userId === session?.user?.id) {
+      card.businessCard.shareception = true;
+      card.businessCard.info_visibility = [
+        "name",
+        "title",
+        "email",
+        "phone",
+        "company",
+        "address",
+        "tags",
+        "website",
+      ];
+    }
     contactCards.push({
       ...card.businessCard,
       tags: card.businessCard?.tags as string[],

@@ -1,13 +1,12 @@
 'use client'
 
-import { logout } from "@/actions/auth";
+import { getStatus, logout } from "@/actions/auth";
 import { getBusinessCard } from "@/actions/getBusinessCard";
 import SearchForm from "@/components/search-form";
-import { LogoutButton } from "@/components/ui/auth/auth-buttons";
+import SettingsForm from "@/components/settings-form";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { GlareCard } from "@/components/ui/glare-card";
-import { Input } from "@/components/ui/input";
-import { IconHome, IconNewSection, IconSearch } from "@tabler/icons-react";
+import { IconCards, IconHome, IconLogin, IconLogout, IconSettings } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
 type CardData = {
@@ -26,41 +25,49 @@ export default function Page() {
   const [bCard, setBCard] = useState<CardData[]>([])
   const [loading, setLoading] = useState(true)
   const [activeCard, setActiveCard] = useState(0)
+  const [auth, setAuth] = useState(false)
+  const [settings, setSettings] = useState(false)
+
   useEffect(() => {
     async function fetchData() {
       const card = await getBusinessCard()
+      const austh = await getStatus()
+      setAuth(austh)
       setBCard(card)
       setLoading(false)
     }
     fetchData()
   }, [])
 
-  const links = [
+  const getLinks = () => [
     {
-      title: "Home",
+      title: "Card Settings",
       icon: (
-        <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <IconCards className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "/",
+      href: "/me",
     },
     {
-      title: "Auth",
+      title: "Share Settings",
       icon: (
-        <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <IconSettings className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "/let-me-in",
+      href: undefined,
+      onClick: () => setSettings(true),
     },
     {
-      title: "Bye",
-      icon: (
-        <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      title: auth ? "Bye" : "Let me in",
+      icon: auth ? (
+        <IconLogout className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ) : (
+        <IconLogin className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "",
-      onClick: () => {
-        logout()
-      }
-    }
+      href: auth ? undefined : "/let-me-in",
+      onClick: auth ? logout : undefined,
+    },
   ];
+
+  const links = getLinks();
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-10 mt-20">
@@ -72,8 +79,10 @@ export default function Page() {
             <div className="mt-10 z-10">
               <FloatingDock items={links} />
             </div>
+            <SettingsForm settings={settings} setSettings={setSettings} />
           </>}
       </div>
+
     </div>
   );
 }
