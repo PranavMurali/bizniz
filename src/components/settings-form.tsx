@@ -39,7 +39,12 @@ export const SettingSchema = z.object({
     info_visibility: z.array(z.string())
 });
 
-export function SettingsForm({ settings, setSettings }) {
+interface SettingsFormProps {
+    settings: boolean;
+    setSettings: (value: boolean) => void;
+}
+
+export function SettingsForm({ settings, setSettings }: Readonly<SettingsFormProps>) {
 
     const form = useForm<z.infer<typeof SettingSchema>>({
         resolver: zodResolver(SettingSchema),
@@ -69,9 +74,9 @@ export function SettingsForm({ settings, setSettings }) {
             }
         }
         fetchData()
-    }, [])
+    }, [form])
 
-    const setInfo = (value) => {
+    const setInfo = (value: string[]) => {
         setValue("info_visibility", value)
     }
     return (
@@ -88,12 +93,17 @@ export function SettingsForm({ settings, setSettings }) {
                                     <FormItem className="mt-2">
                                         <FormLabel>Can your Contacts share your card </FormLabel>
                                         <FormControl>
-                                            <Checkbox {...field}
+                                            <Checkbox
                                                 checked={form.getValues("shareception")}
                                                 onCheckedChange={(value) => {
                                                     field.onChange(value);
                                                 }}
-                                                className="ml-2" />
+                                                className="ml-2"
+                                                onBlur={field.onBlur}
+                                                name={field.name}
+                                                ref={field.ref}
+                                                disabled={field.disabled}
+                                            />
                                         </FormControl>
                                         <FormDescription>
                                             [Warning...] This can cause a shareception.

@@ -1,3 +1,4 @@
+import { CardData, Tag } from "@/app/page";
 import { Badge } from "@/components/ui/badge";
 import { greatVibes, sourceCodePro400 } from "@/styles/fonts";
 import { IconPhone, IconShare } from "@tabler/icons-react";
@@ -7,12 +8,21 @@ import {
   useMotionValue,
   useTransform
 } from "framer-motion";
+import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from "react";
 import EmptyCard from "../empty-card";
-import { enqueueSnackbar } from 'notistack'
 
 
-export function Card({ cardCount, frontCard, drag, setActiveCardKey, children, onPress }) {
+interface CardProps {
+  cardCount: number;
+  frontCard: boolean;
+  drag: boolean | "x" | "y";
+  setActiveCardKey: (key: number) => void;
+  children: React.ReactNode;
+  onPress: () => void;
+}
+
+export function Card({ cardCount, frontCard, drag, setActiveCardKey, children, onPress }: Readonly<CardProps>) {
   const [exitX, setExitX] = useState(0);
   const x = useMotionValue(0);
   const scale = useTransform(x, [-150, 0, 150], [0.5, 1, 0.5]);
@@ -22,7 +32,7 @@ export function Card({ cardCount, frontCard, drag, setActiveCardKey, children, o
 
   const variantsFrontCard = {
     animate: { scale: 1, y: 0, opacity: 1 },
-    exit: (custom) => ({
+    exit: (custom: any) => ({
       x: custom,
       opacity: 0,
       scale: 0.5,
@@ -33,14 +43,14 @@ export function Card({ cardCount, frontCard, drag, setActiveCardKey, children, o
     animate: { scale: 0.75, y: 30, opacity: 0.5 }
   };
 
-  function handleDragEnd(_, info) {
+  function handleDragEnd(_: any, info: { offset: { x: number; }; }) {
     if (info.offset.x < -100) {
       setExitX(-250);
-      setActiveCardKey((prevKey) => (prevKey - 1 + cardCount) % cardCount);
+      setActiveCardKey(((prevKey: number) => (prevKey - 1 + cardCount) % cardCount) as unknown as number);
     }
     if (info.offset.x > 100) {
       setExitX(250);
-      setActiveCardKey((prevKey) => (prevKey + 1) % cardCount);
+      setActiveCardKey(((prevKey: number) => (prevKey + 1) % cardCount) as unknown as number);
     }
   }
 
@@ -83,13 +93,18 @@ export function Card({ cardCount, frontCard, drag, setActiveCardKey, children, o
   );
 }
 
-export function GlareCard({ cards, activeCardId }) {
+interface GlareCardProps {
+  cards: CardData[];
+  activeCardId: any;
+}
+
+export function GlareCard({ cards, activeCardId }: Readonly<GlareCardProps>) {
   const [activeCardKey, setActiveCardKey] = useState(0);
 
   useEffect(() => {
     console.log("activeCardId", activeCardId, cards);
-    const scrollToCard = (id) => {
-      const cardIndex = cards.findIndex(card => card.id === id);
+    const scrollToCard = (id: any) => {
+      const cardIndex = cards.findIndex((card: { id: any; }) => card.id === id);
       if (cardIndex !== -1) {
         setActiveCardKey(cardIndex);
       }
@@ -111,9 +126,9 @@ export function GlareCard({ cards, activeCardId }) {
                 frontCard={i === activeCardKey}
                 setActiveCardKey={setActiveCardKey}
                 drag="x"
-                onPress={() => setActiveCardKey(i)}
+                onPress={() => setActiveCardKey(Number(i))}
               >
-                <div key={card.key} className="p-4 flex flex-col">
+                <div key={i} className="p-4 flex flex-col">
                   <div className="flex flex-row justify-between">
                     <h2 className={`mb-2 text-3xl font-semibold ${sourceCodePro400.className} ${!card.info_visibility.includes('name') && "blur-md"}`}>{
                       card.info_visibility.includes('name') ? card.name : "You Sneaky"
@@ -141,8 +156,8 @@ export function GlareCard({ cards, activeCardId }) {
                     <div>
                       {card.info_visibility.includes('tags') ? (
                         <div>
-                          {card.tags.map(({ text, id }: { text: string, id: number }) => (
-                            <Badge key={id} variant="outline" className="text-sm">{text}</Badge>
+                          {card.tags.map((tag: Tag) => (
+                            <Badge key={tag.id} variant="outline" className="text-sm">{tag.text}</Badge>
                           ))}
                         </div>
                       ) : (

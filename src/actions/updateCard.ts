@@ -23,7 +23,7 @@ const updateExistingCard = async (cardId: string, values: z.infer<typeof infoFor
 const insertNewCard = async (userId: string, values: z.infer<typeof infoFormSchema>) => {
   const insertedCard = await db
     .insert(businessCards)
-    .values([{ userId, ...values }])
+    .values([{ userId, ...values, shareception: values.shareception ?? true }])
     .onConflictDoUpdate({
       target: businessCards.id,
       set: values,

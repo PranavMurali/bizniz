@@ -4,6 +4,7 @@ import { db } from "@/db/config";
 import { businessCards } from "@/db/schema/cards";
 import { contacts } from "@/db/schema/contacts";
 import { eq, ilike, or, sql } from "drizzle-orm"; // Adjust the import path as necessary
+import { BusinessCard } from "./getBusinessCard";
 
 export const searchContacts = async ({
   searchQuery,
@@ -22,7 +23,7 @@ export const searchContacts = async ({
     .from(contacts)
     .where(eq(contacts.user, userId))
     .as("subQuery");
-  const card = [];
+  const card: BusinessCard[] = [];
   const results = await db
     .select()
     .from(businessCards)
@@ -35,7 +36,10 @@ export const searchContacts = async ({
       )
     );
   results.forEach((res) => {
-    card.push(res.businessCard);
+    card.push({
+      ...res.businessCard,
+      tags: res.businessCard.tags as string[],
+    });
   });
   return card;
 };

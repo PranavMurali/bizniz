@@ -5,22 +5,26 @@ import { businessCards } from "@/db/schema/cards";
 import { contacts } from "@/db/schema/contacts";
 import { eq } from "drizzle-orm";
 
+export type BusinessCard = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  userId: string;
+  title: string | null;
+  phone: string | null;
+  company: string | null;
+  website: string | null;
+  address: string | null;
+  shareslug: string | null;
+  tags: string[];
+  shareception: boolean;
+  info_visibility: string[];
+};
+
+const contactCards: BusinessCard[] = [];
+
 export const getBusinessCard = async () => {
-  const contactCards: Array<{
-    id: string;
-    name: string | null;
-    email: string | null;
-    userId: string;
-    title: string | null;
-    phone: string | null;
-    company: string | null;
-    website: string | null;
-    address: string | null;
-    shareslug: string | null;
-    tags: string[];
-    shareception: boolean;
-    info_visibility: string[];
-  }> = [];
+
 
   const session = await auth();
   const cards = await db

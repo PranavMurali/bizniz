@@ -78,17 +78,6 @@ export function ProfileInfoForm() {
     message: "",
   })
 
-  useEffect(() => {
-    async function fetchData() {
-      const bCard = await getBusinessCard()
-      if (bCard.length > 0) {
-        form.reset(bCard[0])
-        setTags(bCard[0].tags)
-      }
-      setIsLoading(false)
-    }
-    fetchData()
-  }, [])
 
   const form = useForm<z.infer<typeof infoFormSchema>>({
     resolver: zodResolver(infoFormSchema),
@@ -114,6 +103,28 @@ export function ProfileInfoForm() {
       ],
     }
   })
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const bCard = await getBusinessCard()
+      if (bCard.length > 0) {
+        form.reset({
+          ...bCard[0],
+          name: bCard[0].name ?? undefined,
+          email: bCard[0].email ?? undefined,
+          title: bCard[0].title ?? undefined,
+          phone: bCard[0].phone ?? undefined,
+          company: bCard[0].company ?? undefined,
+          website: bCard[0].website ?? undefined,
+          address: bCard[0].address ?? undefined,
+          tags: bCard[0].tags.map((tag: string) => ({ id: tag, text: tag })),
+        })
+      }
+      setIsLoading(false)
+    }
+    fetchData()
+  }, [form])
 
   const { setValue } = form;
 
@@ -251,7 +262,7 @@ export function ProfileInfoForm() {
                         <Input placeholder="Website" {...field} />
                       </FormControl>
                       <FormDescription>
-                        Your company's website URL.
+                        Your company&apos;s website URL.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

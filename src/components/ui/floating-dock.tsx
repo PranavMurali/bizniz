@@ -9,14 +9,14 @@ import {
   useTransform,
 } from "framer-motion";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 
 export const FloatingDock = ({
   items,
   desktopClassName,
   mobileClassName,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string; onClick: () => void }[];
+  items: FloatingDockItem[];
   desktopClassName?: string;
   mobileClassName?: string;
 }) => {
@@ -28,11 +28,19 @@ export const FloatingDock = ({
   );
 };
 
+
+type FloatingDockItem = {
+  title: string;
+  icon: ReactNode;
+  href: string | undefined;
+  onClick?: () => void;
+};
+
 const FloatingDockMobile = ({
   items,
   className,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string, onClick: () => void }[];
+  items: FloatingDockItem[];
   className?: string;
 }) => {
   const [open, setOpen] = useState(false);
@@ -96,7 +104,7 @@ const FloatingDockDesktop = ({
   items,
   className,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string, onClick: () => void; }[];
+  items: FloatingDockItem[];
   className?: string;
 }) => {
   const mouseX = useMotionValue(Infinity);
@@ -122,13 +130,13 @@ function IconContainer({
   icon,
   href,
   onClick
-}: {
+}: Readonly<{
   mouseX: MotionValue;
   title: string;
   icon: React.ReactNode;
-  href: string;
-  onClick: () => void;
-}) {
+  href: string | undefined;
+  onClick?: () => void;
+}>) {
   const ref = useRef<HTMLDivElement>(null);
 
   const distance = useTransform(mouseX, (val) => {

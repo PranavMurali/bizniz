@@ -6,10 +6,16 @@ import SearchForm from "@/components/search-form";
 import SettingsForm from "@/components/settings-form";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { GlareCard } from "@/components/ui/glare-card";
-import { IconCards, IconHome, IconLogin, IconLogout, IconSettings } from "@tabler/icons-react";
+import { IconCards, IconLogin, IconLogout, IconSettings } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
-type CardData = {
+
+export type Tag = {
+  id: string;
+  text: number;
+};
+
+export type CardData = {
   id: string;
   title: string | null;
   name: string | null;
@@ -19,12 +25,16 @@ type CardData = {
   company?: string | null;
   website?: string | null;
   address?: string | null;
+  info_visibility: string | string[];
+  shareception: boolean;
+  shareslug: string;
+  tags: Tag[];
 };
 
 export default function Page() {
   const [bCard, setBCard] = useState<CardData[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeCard, setActiveCard] = useState(0)
+  const [activeCard, setActiveCard] = useState<string>("")
   const [auth, setAuth] = useState(false)
   const [settings, setSettings] = useState(false)
 
@@ -33,7 +43,7 @@ export default function Page() {
       const card = await getBusinessCard()
       const austh = await getStatus()
       setAuth(austh)
-      setBCard(card)
+      setBCard(card as unknown as CardData[])
       setLoading(false)
     }
     fetchData()

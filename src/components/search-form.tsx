@@ -10,10 +10,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { Separator } from './ui/separator';
+import { BusinessCard } from '@/actions/getBusinessCard';
 
-export function SearchForm({ setActiveCard }) {
-    const [isLoading, setIsLoading] = useState(true)
-    const [result, setResult] = useState([])
+interface SearchFormProps {
+    setActiveCard: (id: string) => void;
+}
+
+export function SearchForm({ setActiveCard }: Readonly<SearchFormProps>) {
+    const [result, setResult] = useState<BusinessCard[]>([])
 
     const SearchFormSchema = z.object({
         searchQuery: z.string().optional(),
@@ -29,7 +33,7 @@ export function SearchForm({ setActiveCard }) {
 
     async function onSubmit(values: z.infer<typeof SearchFormSchema>) {
         try {
-            const res = await searchContacts(values)
+            const res = await searchContacts({ searchQuery: values.searchQuery || "" })
             setResult(res)
         }
         catch (e) {
@@ -46,7 +50,7 @@ export function SearchForm({ setActiveCard }) {
                         name="searchQuery"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Who'd you wanna find</FormLabel>
+                                <FormLabel>Who&apos;d you wanna find</FormLabel>
                                 <FormControl>
                                     <div className="relative mt-20 w-96">
                                         <IconSearch className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
