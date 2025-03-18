@@ -4,6 +4,7 @@ import { db } from "@/db/config";
 import { businessCards } from "@/db/schema/cards";
 import { contacts } from "@/db/schema/contacts";
 import { eq } from "drizzle-orm";
+import { Tag } from "emblor";
 
 export type BusinessCard = {
   id: string;
@@ -16,16 +17,14 @@ export type BusinessCard = {
   website: string | null;
   address: string | null;
   shareslug: string | null;
-  tags: string[];
+  tags: Tag[];
   shareception: boolean;
   info_visibility: string[];
 };
 
-const contactCards: BusinessCard[] = [];
 
 export const getBusinessCard = async () => {
-
-
+  const contactCards: BusinessCard[] = [];
   const session = await auth();
   const cards = await db
     .select()
@@ -48,8 +47,9 @@ export const getBusinessCard = async () => {
     }
     contactCards.push({
       ...card.businessCard,
-      tags: card.businessCard?.tags as string[],
+      tags: card.businessCard?.tags as Tag[],
     });
+    console.log("OPOPOP", contactCards.length)
   });
   return contactCards;
 };

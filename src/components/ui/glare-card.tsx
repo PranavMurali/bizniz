@@ -1,7 +1,7 @@
 import { CardData, Tag } from "@/app/page";
 import { Badge } from "@/components/ui/badge";
 import { greatVibes, sourceCodePro400 } from "@/styles/fonts";
-import { IconPhone, IconShare } from "@tabler/icons-react";
+import { IconGlobe, IconPhone, IconShare } from "@tabler/icons-react";
 import {
   AnimatePresence,
   motion,
@@ -11,6 +11,7 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from "react";
 import EmptyCard from "../empty-card";
+import Link from "next/link";
 
 
 interface CardProps {
@@ -151,8 +152,16 @@ export function GlareCard({ cards, activeCardId }: Readonly<GlareCardProps>) {
                     <IconPhone className="text-4xl" />
                     <p className="text-gray-600 text-xl">{card.info_visibility.includes('phone') ? card.phone : "911"}</p>
                   </div>
+                  {card.info_visibility.includes('address') ? (
+                    <p className="mt-5">{card.address}</p>) : (null)}
                   <p>{card.info_visibility.length === 0 ? "No information available right now" : null}</p>
-                  <div className={`flex bottom-10 absolute gap-2 flex-col ${!card.info_visibility.includes('tags') && "blur-md"}`}>
+                  {card.info_visibility.includes('website') ? (
+                    <Link href={card.website || ""} passHref>
+                      <IconGlobe
+                        className="flex bottom-20 absolute"
+                      />
+                    </Link>) : (null)}
+                  < div className={`flex bottom-10 absolute gap-2 flex-col ${!card.info_visibility.includes('tags') && "blur-md"}`}>
                     <div>
                       {card.info_visibility.includes('tags') ? (
                         <div>
@@ -171,6 +180,6 @@ export function GlareCard({ cards, activeCardId }: Readonly<GlareCardProps>) {
           </>
         )}
       </AnimatePresence>
-    </motion.div>
+    </motion.div >
   );
 }

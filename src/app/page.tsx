@@ -81,16 +81,19 @@ export default function Page() {
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-10 mt-20">
-      <SearchForm setActiveCard={setActiveCard} />
       <div className="flex justify-center items-center flex-col gap-4">
         {loading ? <div>Loading...</div> :
           <>
             <GlareCard cards={bCard} activeCardId={activeCard} />
-            <div className="mt-10 z-10">
+            <div className="mt-4 z-10">
               <FloatingDock items={links} />
             </div>
             <SettingsForm settings={settings} setSettings={setSettings} />
           </>}
+        <div className="mt-10">
+          <SearchForm setActiveCard={setActiveCard} />
+        </div>
+
       </div>
 
     </div>

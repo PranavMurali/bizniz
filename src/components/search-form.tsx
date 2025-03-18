@@ -6,7 +6,7 @@ import { IconSearch, IconXboxXFilled, IconXboxX } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { Separator } from './ui/separator';
@@ -20,7 +20,7 @@ export function SearchForm({ setActiveCard }: Readonly<SearchFormProps>) {
     const [result, setResult] = useState<BusinessCard[]>([])
 
     const SearchFormSchema = z.object({
-        searchQuery: z.string().optional(),
+        searchQuery: z.string().nonempty("Search query should not be empty"),
     });
 
     const form = useForm<z.infer<typeof SearchFormSchema>>({
@@ -43,34 +43,9 @@ export function SearchForm({ setActiveCard }: Readonly<SearchFormProps>) {
 
     return (
         <div className='w-96'>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 flex flex-row">
-                    <FormField
-                        control={form.control}
-                        name="searchQuery"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Who&apos;d you wanna find</FormLabel>
-                                <FormControl>
-                                    <div className="relative mt-20 w-96">
-                                        <IconSearch className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                                        <Input placeholder="Search" className="pl-8" {...field} />
-                                        {result.length > 0 && <IconXboxXFilled className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground" onClick={() => {
-                                            setResult([])
-                                            form.reset()
-                                        }} />}
-                                    </div>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </form>
-            </Form>
-
-            <ScrollArea className="rounded-md border mt-2">
+            <ScrollArea className="rounded-md max-h-20 mb-2">
                 {result.length > 0 && (
-                    <div className=" border-green-900 border rounded-md " >
+                    <div className="border-green-900 border rounded-md bottom-0 relative flex flex-col-reverse">
                         {result.map((res, i) => (
                             <div key={i}>
                                 <div className="justify-between py-2 px-2">
@@ -92,6 +67,37 @@ export function SearchForm({ setActiveCard }: Readonly<SearchFormProps>) {
                         ))}
                     </div>)}
             </ScrollArea>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <FormField
+                        control={form.control}
+                        name="searchQuery"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormMessage />
+                                <FormControl>
+                                    <div className="relative w-96">
+                                        <IconSearch className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                                        <Input placeholder="Search" className="pl-8" {...field} />
+                                        {result.length > 0 && <IconXboxXFilled className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground" onClick={() => {
+                                            setResult([])
+                                            form.reset()
+                                        }} />}
+                                    </div>
+                                </FormControl>
+                                <div className="mt-2">
+                                    <FormLabel>Who&apos;d you wanna find</FormLabel>
+                                    <FormDescription>
+                                        Search for a contact by any detail/tag
+                                    </FormDescription>
+                                </div>
+                            </FormItem>
+                        )}
+                    />
+                </form>
+            </Form>
+
+
         </div>
     );
 };
