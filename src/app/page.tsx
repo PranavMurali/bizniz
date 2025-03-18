@@ -80,7 +80,7 @@ export default function Page() {
   const links = getLinks();
 
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-10 mt-20">
+    <div className="flex flex-col items-center justify-center h-full gap-10 mt-5">
       <div className="flex justify-center items-center flex-col gap-4">
         {loading ? <div>Loading...</div> :
           <>
