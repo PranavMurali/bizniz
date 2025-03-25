@@ -7,6 +7,12 @@ import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { contacts } from "@/db/schema/contacts";
 
+const initialCardData = {
+  backgroundColor: "#000000",
+  textColor: "#ffffff",
+  secondaryTextColor: "#888888",
+};
+
 export const getExistingCard = async (userId: string) => {
   return await db
     .select()
@@ -14,16 +20,30 @@ export const getExistingCard = async (userId: string) => {
     .where(eq(businessCards.userId, userId));
 };
 
-const updateExistingCard = async (cardId: string, values: z.infer<typeof infoFormSchema>) => {
-  await db.update(businessCards)
+const updateExistingCard = async (
+  cardId: string,
+  values: z.infer<typeof infoFormSchema>
+) => {
+  await db
+    .update(businessCards)
     .set(values)
     .where(eq(businessCards.id, cardId));
 };
 
-const insertNewCard = async (userId: string, values: z.infer<typeof infoFormSchema>) => {
+const insertNewCard = async (
+  userId: string,
+  values: z.infer<typeof infoFormSchema>
+) => {
   const insertedCard = await db
     .insert(businessCards)
-    .values([{ userId, ...values, shareception: values.shareception ?? true }])
+    .values([
+      {
+        userId,
+        ...values,
+        styles: initialCardData,
+        shareception: values.shareception ?? true,
+      },
+    ])
     .onConflictDoUpdate({
       target: businessCards.id,
       set: values,
@@ -34,10 +54,7 @@ const insertNewCard = async (userId: string, values: z.infer<typeof infoFormSche
 };
 
 const getExistingContact = async (cardId: string) => {
-  return await db
-    .select()
-    .from(contacts)
-    .where(eq(contacts.cardId, cardId));
+  return await db.select().from(contacts).where(eq(contacts.cardId, cardId));
 };
 
 const insertNewContact = async (userId: string, cardId: string) => {

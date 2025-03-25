@@ -20,5 +20,6 @@ export const businessCards = pgTable("businessCard", {
   shareception: boolean("shareception").notNull(),
   info_visibility: text("info_visibility").array().notNull(),
   tags: json("tags").notNull(),
+  styles: json("styles").notNull(),
 });
 

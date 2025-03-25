@@ -1,7 +1,7 @@
 "use client"
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
-import { SnackbarProvider} from 'notistack'
+import { SnackbarProvider } from 'notistack'
 
 export interface RootLayoutProps {
   children: React.ReactNode;

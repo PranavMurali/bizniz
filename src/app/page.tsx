@@ -6,6 +6,8 @@ import SearchForm from "@/components/search-form";
 import SettingsForm from "@/components/settings-form";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { GlareCard } from "@/components/ui/glare-card";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { IconCards, IconLogin, IconLogout, IconSettings } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
@@ -41,8 +43,8 @@ export default function Page() {
   useEffect(() => {
     async function fetchData() {
       const card = await getBusinessCard()
-      const austh = await getStatus()
-      setAuth(austh)
+      const authStatus = await getStatus()
+      setAuth(authStatus)
       setBCard(card as unknown as CardData[])
       setLoading(false)
     }
@@ -80,22 +82,33 @@ export default function Page() {
   const links = getLinks();
 
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-10 mt-5">
+    <SidebarProvider className="flex flex-col items-center justify-center h-full gap-10 mt-5">
       <div className="flex justify-center items-center flex-col gap-4">
-        {loading ? <div>Loading...</div> :
+        {loading ? (<><div className="mt-4 z-10">
+          <Skeleton className="h-[500px] w-[300px] rounded-xl" />
+        </div>
+          <div className="mt-4">
+            <Skeleton className="h-[60px] w-[200px] rounded-xl" />
+          </div>
+          <div className="flex flex-col space-y-3 mt-10">
+            <Skeleton className="h-[40px] w-[400px] rounded-xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[200px]" />
+              <Skeleton className="h-4 w-[250px]" />
+            </div>
+          </div> </>) :
           <>
             <GlareCard cards={bCard} activeCardId={activeCard} />
             <div className="mt-4 z-10">
               <FloatingDock items={links} />
             </div>
             <SettingsForm settings={settings} setSettings={setSettings} />
+            <div className="mt-10">
+              <SearchForm setActiveCard={setActiveCard} />
+            </div>
           </>}
-        <div className="mt-10">
-          <SearchForm setActiveCard={setActiveCard} />
-        </div>
-
       </div>
-
-    </div>
+    </SidebarProvider>
   );
 }
+
