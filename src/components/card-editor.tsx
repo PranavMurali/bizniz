@@ -54,8 +54,8 @@ export default function BusinessCardEditor() {
     useEffect(() => {
         async function fetchData() {
             const cards = await getMyCard()
-            console.log("cards", cards)
-            setCardData(cards[0]?.styles as unknown as z.infer<typeof StylesSchema>)
+            if (cards.length > 0)
+                setCardData(cards[0]?.styles as unknown as z.infer<typeof StylesSchema>)
         }
         fetchData()
     }, [])

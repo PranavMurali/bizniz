@@ -86,7 +86,7 @@ export default function Page() {
   const links = getLinks();
 
   return (
-    <SidebarProvider className="flex flex-col items-center justify-center h-full gap-10 mt-5">
+    <SidebarProvider className="flex flex-col items-center justify-center h-full gap-10 mt-5" defaultOpen={false}>
       <div className="flex justify-center items-center flex-col gap-4">
         {loading ? (<><div className="mt-4 z-10">
           <Skeleton className="h-[500px] w-[300px] rounded-xl" />
