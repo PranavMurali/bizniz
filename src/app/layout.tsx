@@ -2,6 +2,7 @@
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { SnackbarProvider } from 'notistack'
+import { Analytics } from '@vercel/analytics/next';
 
 export interface RootLayoutProps {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         >
           <SnackbarProvider />
           {children}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
