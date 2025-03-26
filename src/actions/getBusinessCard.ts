@@ -27,11 +27,14 @@ export type BusinessCard = {
 export const getBusinessCard = async () => {
   const contactCards: BusinessCard[] = [];
   const session = await auth();
-  const cards = await db
+  const cards = (await db
     .select()
     .from(contacts)
     .where(eq(contacts.user, session?.user?.id ?? ""))
-    .innerJoin(businessCards, eq(contacts.cardId, businessCards.id));
+    .innerJoin(businessCards, eq(contacts.cardId, businessCards.id))) as {
+    contacts: { user: string; id: string; cardId: string; contact: string };
+    businessCard: Omit<BusinessCard, "edit"> & { edit?: boolean | null };
+  }[];
   cards.forEach((card) => {
     if (card.businessCard.userId === session?.user?.id) {
       card.businessCard.shareception = true;
@@ -63,7 +66,7 @@ export const getMyCard = async () => {
     .select()
     .from(businessCards)
     .where(eq(businessCards.userId, session?.user?.id ?? ""));
-  
+
   return cards.map((card) => ({
     ...card,
     shareception: true,

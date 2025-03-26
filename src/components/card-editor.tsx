@@ -45,14 +45,7 @@ const fontSizeOptions = {
 export const StylesSchema = z.object({
     backgroundColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Background color must be a valid hex color"),
     textColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Text color must be a valid hex color"),
-    accentColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Accent color must be a valid hex color"),
     secondaryTextColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Secondary text color must be a valid hex color"),
-    borderRadius: z.number().min(0).max(32, "Border radius must be between 0 and 32"),
-    borderColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Border color must be a valid hex color"),
-    showIcons: z.boolean(),
-    nameSize: z.string(),
-    titleSize: z.string(),
-    detailsSize: z.string(),
 })
 
 export default function BusinessCardEditor() {
@@ -113,8 +106,6 @@ export default function BusinessCardEditor() {
 
     return (
         <div className="h-screen absolute inset-0">
-            {console.log("cardData", cardData)}
-
             <Sidebar className="border-r-0">
                 <SidebarHeader>
                     <div className="flex items-center p-2">
@@ -124,13 +115,13 @@ export default function BusinessCardEditor() {
                 </SidebarHeader>
                 <SidebarContent>
                     <Tabs defaultValue="style" className="w-full">
-                        <TabsList className="grid w-full grid-cols-2">
+                        <TabsList className="grid w-full grid-cols-1">
                             <TabsTrigger value="style" className="text-sm">
                                 Style
                             </TabsTrigger>
-                            <TabsTrigger value="layout" className="text-sm">
+                            {/* <TabsTrigger value="layout" className="text-sm">
                                 Layout
-                            </TabsTrigger>
+                            </TabsTrigger> */}
                         </TabsList>
 
                         <TabsContent value="style" className="mt-0">
@@ -319,7 +310,7 @@ export default function BusinessCardEditor() {
                             </SidebarGroup> */}
                         </TabsContent>
 
-                        <TabsContent value="layout" className="mt-0">
+                        {/* <TabsContent value="layout" className="mt-0">
                             <SidebarGroup>
                                 <SidebarGroupLabel>Display Options</SidebarGroupLabel>
                                 <SidebarGroupContent>
@@ -334,7 +325,7 @@ export default function BusinessCardEditor() {
                                     </div>
                                 </SidebarGroupContent>
                             </SidebarGroup>
-                        </TabsContent>
+                        </TabsContent> */}
                     </Tabs>
                 </SidebarContent>
                 <SidebarFooter className="border-t border-gray-800 p-4">

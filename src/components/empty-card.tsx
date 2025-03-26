@@ -13,7 +13,8 @@ const EmptyCard: React.FC = () => {
             frontCard={true}
             drag="x"
             onPress={() => redirect('/me')}
-            setActiveCardKey={setActiveCardKey}>
+            setActiveCardKey={setActiveCardKey}
+            backgroundColor="black">
             <div className="p-4 flex flex-col">
                 <h2 className={`text-3xl ${sourceCodePro400.className}`}>Make A Card Now!</h2>
             </div>

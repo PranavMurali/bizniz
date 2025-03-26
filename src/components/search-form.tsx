@@ -10,14 +10,18 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { Separator } from './ui/separator';
-import { BusinessCard } from '@/actions/getBusinessCard';
+import { BusinessCard as OriginalBusinessCard } from '@/actions/getBusinessCard';
+
+interface BusinessCard extends OriginalBusinessCard {
+    edit: boolean | null;
+}
 
 interface SearchFormProps {
     setActiveCard: (id: string) => void;
 }
 
 export function SearchForm({ setActiveCard }: Readonly<SearchFormProps>) {
-    const [result, setResult] = useState<BusinessCard[]>([])
+    const [result, setResult] = useState<(BusinessCard & { edit: boolean | null })[]>([])
 
     const SearchFormSchema = z.object({
         searchQuery: z.string().nonempty("Search query should not be empty"),
@@ -33,7 +37,7 @@ export function SearchForm({ setActiveCard }: Readonly<SearchFormProps>) {
 
     async function onSubmit(values: z.infer<typeof SearchFormSchema>) {
         try {
-            const res = await searchContacts({ searchQuery: values.searchQuery || "" })
+            const res = await searchContacts({ searchQuery: values.searchQuery || "" }) as (BusinessCard & { edit: boolean | null })[]
             setResult(res)
         }
         catch (e) {

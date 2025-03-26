@@ -17,21 +17,25 @@ export type Tag = {
   text: number;
 };
 
-export type CardData = {
+export interface CardData {
   id: string;
-  title: string | null;
-  name: string | null;
-  position?: string;
-  email: string | null;
-  phone: string | null;
-  company?: string | null;
-  website?: string | null;
-  address?: string | null;
-  info_visibility: string | string[];
+  name: string;
+  title: string;
+  email: string;
+  phone: string;
+  address: string;
+  website: string;
+  tags: Tag[];
+  info_visibility: string[];
   shareception: boolean;
   shareslug: string;
-  tags: Tag[];
-};
+  edit?: boolean;
+  styles?: {
+    backgroundColor?: string;
+    textColor?: string;
+    secondaryTextColor?: string;
+  };
+}
 
 export default function Page() {
   const [bCard, setBCard] = useState<CardData[]>([])

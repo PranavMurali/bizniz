@@ -24,7 +24,7 @@ export const searchContacts = async ({
     .from(contacts)
     .where(eq(contacts.user, userId))
     .as("subQuery");
-  const card: BusinessCard[] = [];
+  const card: (Omit<BusinessCard, "edit"> & { edit?: boolean | null })[] = [];
   const results = await db
     .select()
     .from(businessCards)
@@ -40,6 +40,7 @@ export const searchContacts = async ({
     card.push({
       ...res.businessCard,
       tags: res.businessCard.tags as Tag[],
+      styles: res.businessCard.styles as { [key: string]: any } | undefined,
     });
   });
   return card;

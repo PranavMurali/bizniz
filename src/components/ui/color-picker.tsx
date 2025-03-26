@@ -18,7 +18,7 @@ interface ColorPickerProps {
   onBlur?: () => void;
 }
 
-const useForwardedRef = (ref) => {
+const useForwardedRef = (ref: React.Ref<HTMLInputElement>) => {
   const innerRef = useRef(null);
 
   useEffect(() => {
