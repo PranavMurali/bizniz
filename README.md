@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![bizniz](https://socialify.git.ci/PranavMurali/bizniz/image?font=Inter&language=1&name=1&owner=1&pattern=Solid&theme=Dark)
 
-## Getting Started
+# Bizniz
 
-First, run the development server:
+Bizniz is your **next-generation digital business card**. Say goodbye to paper cards and hello to an interactive **3D experience**. Designed for professionals who want to **stand out**, Bizniz lets you create and share stunning digital business cards with just a tap.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Why Choose Bizniz?
+- **👁️ Captivating 3D Design** – Your business card comes to life with **Three.js**.
+- **🎨 Fully Customizable** – Personalize your card with colors, styles, and animations.
+- **⚡ Smooth & Modern UI** – Designed with a sleek, dark-themed look for a premium feel.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Built With
+- **Next.js** – For a fast, responsive experience.
+- **Three.js** – Powering the immersive 3D visuals.
+- **Drizzle ORM** – Seamless and efficient database management.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔮 Upcoming Features
+- **📲 NFC Integration** – Even more seamless sharing capabilities.
+- **🎨 More Card Customization** – Expanded design options to fit your style.
+- **🌀 Enhanced Three.js Animations** – More dynamic and fun animated cards.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📜 License
+Bizniz is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)**. This means you are free to share and adapt the software for non-commercial purposes with proper attribution. For commercial use and enterprise licensing, please contact [Pranav Murali](https://github.com/PranavMurali).
 
-## Learn More
+## 📬 Get in Touch
+For business inquiries or support, reach out to [Pranav Murali](https://github.com/PranavMurali) and let’s build the future of business cards together!
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
