@@ -11,6 +11,7 @@ import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { Separator } from './ui/separator';
 import { BusinessCard as OriginalBusinessCard } from '@/actions/getBusinessCard';
+import { enqueueSnackbar } from 'notistack';
 
 interface BusinessCard extends OriginalBusinessCard {
     edit: boolean | null;
@@ -41,7 +42,10 @@ export function SearchForm({ setActiveCard }: Readonly<SearchFormProps>) {
             setResult(res)
         }
         catch (e) {
-            console.error(e)
+            enqueueSnackbar("Error while searching for contacts", {
+                variant: "error",
+                autoHideDuration: 2000
+            })
         }
     }
 

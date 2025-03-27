@@ -26,7 +26,6 @@ export const updateStyles = async (
   if (!session) {
     throw new Error("Authentication failed");
   }
-  console.log("values", values);
   const userId = session.user.id;
   const existingCard = await getExistingCard(userId);
 

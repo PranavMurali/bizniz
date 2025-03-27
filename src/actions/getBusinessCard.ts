@@ -5,6 +5,7 @@ import { businessCards } from "@/db/schema/cards";
 import { contacts } from "@/db/schema/contacts";
 import { eq, and } from "drizzle-orm";
 import { Tag } from "emblor";
+import { track } from "@vercel/analytics/server";
 
 export type BusinessCard = {
   id: string;
@@ -35,6 +36,10 @@ export const getBusinessCard = async () => {
     contacts: { user: string; id: string; cardId: string; contact: string };
     businessCard: Omit<BusinessCard, "edit"> & { edit?: boolean | null };
   }[];
+  track("Business Cards Fetched", {
+    userId: session?.user?.id || "",
+    cardsCount: cards.length,
+  });
   cards.forEach((card) => {
     if (card.businessCard.userId === session?.user?.id) {
       card.businessCard.shareception = true;

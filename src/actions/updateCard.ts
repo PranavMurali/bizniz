@@ -6,6 +6,7 @@ import { db } from "@/db/config";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { contacts } from "@/db/schema/contacts";
+import { track } from "@vercel/analytics/server";
 
 const initialCardData = {
   backgroundColor: "#000000",
@@ -28,6 +29,9 @@ const updateExistingCard = async (
     .update(businessCards)
     .set(values)
     .where(eq(businessCards.id, cardId));
+  track("Existing Card Updated", {
+    cardId: cardId,
+  });
 };
 
 const insertNewCard = async (
@@ -49,7 +53,10 @@ const insertNewCard = async (
       set: values,
     })
     .returning({ id: businessCards.id });
-
+  track("Card Created", {
+    userId,
+    cardId: insertedCard[0].id,
+  });
   return insertedCard[0].id;
 };
 
@@ -65,7 +72,6 @@ const insertNewContact = async (userId: string, cardId: string) => {
 };
 
 export const updateCard = async (values: z.infer<typeof infoFormSchema>) => {
-  console.log("Updating card", values.tags);
   const session = await auth();
   if (!session) {
     throw new Error("Authentication failed");

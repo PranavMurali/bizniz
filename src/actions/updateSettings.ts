@@ -6,6 +6,7 @@ import { businessCards } from "@/db/schema/cards";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { getExistingCard } from "./updateCard";
+import { track } from "@vercel/analytics/server";
 
 const updateCardSettings = async (
   cardId: string,
@@ -15,6 +16,9 @@ const updateCardSettings = async (
     .update(businessCards)
     .set(values)
     .where(eq(businessCards.id, cardId));
+  track("Card Settings Updated", {
+    cardId: cardId,
+  });
 };
 
 export const updateShareSettings = async (
@@ -24,7 +28,6 @@ export const updateShareSettings = async (
   if (!session) {
     throw new Error("Authentication failed");
   }
-  console.log("values", values);
   const userId = session.user.id;
   const existingCard = await getExistingCard(userId);
 

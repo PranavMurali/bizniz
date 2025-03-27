@@ -6,13 +6,13 @@ import { contacts } from "@/db/schema/contacts";
 import { eq, ilike, or, sql } from "drizzle-orm"; // Adjust the import path as necessary
 import { BusinessCard } from "./getBusinessCard";
 import { Tag } from "emblor";
+import { track } from "@vercel/analytics/server";
 
 export const searchContacts = async ({
   searchQuery,
 }: {
   searchQuery: string;
 }) => {
-  console.log("Searching for", searchQuery);
   const session = await auth();
   if (!session) {
     throw new Error("Authentication failed");
@@ -33,9 +33,16 @@ export const searchContacts = async ({
       or(
         ilike(businessCards.name, `%${searchQuery}%`),
         ilike(businessCards.title, `%${searchQuery}%`),
-        sql`CAST(${businessCards.tags} AS TEXT) ILIKE ${'%' + searchQuery + '%'}`
+        sql`CAST(${businessCards.tags} AS TEXT) ILIKE ${
+          "%" + searchQuery + "%"
+        }`
       )
     );
+  track("Contact Search", {
+    userId,
+    searchQuery,
+    resultsCount: results.length,
+  });
   results.forEach((res) => {
     card.push({
       ...res.businessCard,

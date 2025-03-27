@@ -167,11 +167,11 @@ export function GlareCard({ cards, activeCardId }: Readonly<GlareCardProps>) {
                       <IconShare className="text-4xl"
                         onClick={() => {
                           if (card.info_visibility.length === 0) {
-                            enqueueSnackbar("Please enable some info to share", { variant: "error", preventDuplicate: true });
+                            enqueueSnackbar("Please enable some info to share", { variant: "error", preventDuplicate: true, autoHideDuration:2000 });
                           }
                           else {
                             navigator.clipboard.writeText(window.location.href + `share?id=${card?.shareslug}`);
-                            enqueueSnackbar("Link copied to clipboard", { variant: "success", preventDuplicate: true });
+                            enqueueSnackbar("Link copied to clipboard", { variant: "success", preventDuplicate: true, autoHideDuration:2000 });
                           }
                         }} />
                     )}

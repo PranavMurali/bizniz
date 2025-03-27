@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { useRouter } from "next/navigation";
 import Image from 'next/image'
+import { enqueueSnackbar } from 'notistack';
 
 export default function Share() {
     const params = useSearchParams()
@@ -12,10 +13,25 @@ export default function Share() {
     const shareslug = params.get('id')
 
     useEffect(() => {
-        if (shareslug) {
-            shareCard({ shareslug })
-            router.push("/")
+        async function handleShare() {
+            if (shareslug) {
+                try {
+                    await shareCard({ shareslug })
+                    enqueueSnackbar("Contact Added!", {
+                        variant: "error",
+                        autoHideDuration: 2000,
+                    })
+                }
+                catch (error) {
+                    enqueueSnackbar("Error getting card", {
+                        variant: "error",
+                        autoHideDuration: 2000,
+                    })
+                }
+                router.push("/")
+            }
         }
+        handleShare()
     }, [router, shareslug])
 
     return (

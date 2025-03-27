@@ -95,12 +95,11 @@ export default function BusinessCardEditor() {
     async function onSubmit(values: z.infer<typeof StylesSchema>) {
         try {
             await updateStyles(values)
-            enqueueSnackbar('Card updated 🚀', { variant: 'success' });
+            enqueueSnackbar('Card updated 🚀', { variant: 'success', autoHideDuration: 2000 });
             handleRefresh()
         }
         catch (e) {
-            console.error(e)
-            enqueueSnackbar('🥲 Card update failed', { variant: 'error' });
+            enqueueSnackbar('🥲 Card update failed', { variant: 'error', autoHideDuration: 2000 });
         }
     }
 

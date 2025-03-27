@@ -106,12 +106,11 @@ export function ProfileInfoForm() {
   async function onSubmit(values: z.infer<typeof infoFormSchema>) {
     try {
       await updateCard(values)
-      enqueueSnackbar('Card updated 🚀', { variant: 'success' });
+      enqueueSnackbar('Card updated 🚀', { variant: 'success', autoHideDuration:2000 });
       router.push("/")
     }
     catch (e) {
-      console.error(e)
-      enqueueSnackbar('🥲 Card update failed', { variant: 'error' });
+      enqueueSnackbar('🥲 Card update failed', { variant: 'error', autoHideDuration:2000 });
     }
     setOpen(true)
   }

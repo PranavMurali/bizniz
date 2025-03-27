@@ -56,13 +56,11 @@ export function SettingsForm({ settings, setSettings }: Readonly<SettingsFormPro
     const { setValue } = form
     async function onSubmit(values: z.infer<typeof SettingSchema>) {
         try {
-            console.log("AHAHAHHAHAH", values)
             updateShareSettings(values)
-            enqueueSnackbar("Settings updated", { variant: "success" })
+            enqueueSnackbar("Settings updated", { variant: "success" , autoHideDuration:2000})
         }
         catch (e) {
-            console.error(e)
-            enqueueSnackbar("Error updating settings", { variant: "error" })
+            enqueueSnackbar("Error updating settings", { variant: "error", autoHideDuration:2000 })
         }
     }
 
