@@ -60,6 +60,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.174.0",
+    "@types/w3c-web-nfc": "^1.0.4",
     "drizzle-kit": "^0.30.2",
     "eslint": "^9",
     "eslint-config-next": "^15.2.0",

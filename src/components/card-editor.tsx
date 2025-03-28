@@ -104,7 +104,7 @@ export default function BusinessCardEditor() {
     }
 
     return (
-        <div className="h-screen absolute inset-0">
+        <div className="h-80 absolute inset-0">
             <Sidebar className="border-r-0">
                 <SidebarHeader>
                     <div className="flex items-center p-2">

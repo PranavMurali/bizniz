@@ -104,8 +104,6 @@ export function SearchForm({ setActiveCard }: Readonly<SearchFormProps>) {
                     />
                 </form>
             </Form>
-
-
         </div>
     );
 };

@@ -50,7 +50,7 @@ const ColorPicker = forwardRef<
     }, [value]);
 
     return (
-      <Popover onOpenChange={setOpen} open={open}>
+      <Popover onOpenChange={setOpen} open={open} modal={true}>
         <PopoverTrigger asChild disabled={disabled} onBlur={onBlur}>
           <Button
             {...props}

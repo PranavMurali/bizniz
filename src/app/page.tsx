@@ -86,31 +86,35 @@ export default function Page() {
   const links = getLinks();
 
   return (
-    <SidebarProvider className="flex flex-col items-center justify-center h-full gap-10 mt-5" defaultOpen={false}>
+    <SidebarProvider className="flex flex-col items-center justify-center" defaultOpen={false}>
       <div className="flex justify-center items-center flex-col gap-4">
-        {loading ? (<><div className="mt-4 z-10">
-          <Skeleton className="h-[500px] w-[300px] rounded-xl" />
-        </div>
-          <div className="mt-4">
-            <Skeleton className="h-[60px] w-[200px] rounded-xl" />
-          </div>
-          <div className="flex flex-col space-y-3 mt-10">
-            <Skeleton className="h-[40px] w-[400px] rounded-xl" />
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-[200px]" />
-              <Skeleton className="h-4 w-[250px]" />
+        {loading ? (
+          <>
+            <div className="mt-4 z-10">
+              <Skeleton className="h-[500px] w-[300px] rounded-xl" />
             </div>
-          </div> </>) :
+            <div className="mt-4">
+              <Skeleton className="h-[60px] w-[200px] rounded-xl" />
+            </div>
+            <div className="flex flex-col space-y-3 mt-10">
+              <Skeleton className="h-[40px] w-[400px] rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[200px]" />
+                <Skeleton className="h-4 w-[250px]" />
+              </div>
+            </div>
+          </>) :
           <>
             <GlareCard cards={bCard} activeCardId={activeCard} />
             <div className="mt-4 z-10">
               <FloatingDock items={links} />
             </div>
             <SettingsForm settings={settings} setSettings={setSettings} />
-            <div className="mt-10">
+            <div className="mt-2">
               <SearchForm setActiveCard={setActiveCard} />
             </div>
-          </>}
+          </>
+        }
       </div>
     </SidebarProvider>
   );

@@ -1,6 +1,6 @@
 'use client'
 import { sourceCodePro400 } from '@/styles/fonts';
-import { Card } from './ui/glare-card';
+import { Card } from './ui/contact-card';
 import { redirect } from 'next/navigation'
 import { useState } from 'react';
 
@@ -14,7 +14,9 @@ const EmptyCard: React.FC = () => {
             drag="x"
             onPress={() => redirect('/me')}
             setActiveCardKey={setActiveCardKey}
-            backgroundColor="black">
+            backgroundColor="black"
+            isNfcActive={false}
+            >
             <div className="p-4 flex flex-col">
                 <h2 className={`text-3xl ${sourceCodePro400.className}`}>Make A Card Now!</h2>
             </div>
