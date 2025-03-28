@@ -10,6 +10,7 @@ export async function handleNfcShare(shareUrl: string) {
         autoHideDuration: 2000,
       });
     } catch (error) {
+      console.error("Error writing NFC tag:", error);
       enqueueSnackbar("Failed to write NFC tag.", {
         variant: "error",
         autoHideDuration: 2000,
@@ -58,6 +59,7 @@ export async function handleNfcInteraction(
         setIsNfcActive(false);
       };
     } catch (error) {
+      console.error("Error writing NFC tag:", error);
       enqueueSnackbar(
         "NFC scanning failed or is not supported on this device.",
         { variant: "error", autoHideDuration: 2000 }
