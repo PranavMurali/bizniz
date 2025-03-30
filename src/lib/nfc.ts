@@ -4,17 +4,46 @@ export async function handleNfcShare(shareUrl: string) {
   if ("NDEFReader" in window) {
     try {
       const ndef = new NDEFReader();
-      await ndef.write(shareUrl);
-      enqueueSnackbar("NFC tag written with share URL!", {
-        variant: "success",
-        autoHideDuration: 2000,
-      });
+      await ndef.scan();
+      enqueueSnackbar(
+        "NFC scanning for sharing.",
+        {
+          variant: "info",
+          autoHideDuration: 2000,
+        }
+      );
+
+      ndef.onreading = async () => {
+        try {
+          await ndef.write(shareUrl);
+          enqueueSnackbar("NFC tag written with share URL!", {
+            variant: "success",
+            autoHideDuration: 2000,
+          });
+        } catch (error) {
+          console.error("Error writing NFC tag:", error);
+          enqueueSnackbar("Failed to write NFC tag.", {
+            variant: "error",
+            autoHideDuration: 2000,
+          });
+        }
+      };
+
+      ndef.onreadingerror = () => {
+        enqueueSnackbar("Failed to detect NFC tag. Please try again.", {
+          variant: "error",
+          autoHideDuration: 2000,
+        });
+      };
     } catch (error) {
-      console.error("Error writing NFC tag:", error);
-      enqueueSnackbar("Failed to write NFC tag.", {
-        variant: "error",
-        autoHideDuration: 2000,
-      });
+      console.error("Error initializing NFC scan:", error);
+      enqueueSnackbar(
+        "NFC scanning failed or is not supported on this device.",
+        {
+          variant: "error",
+          autoHideDuration: 2000,
+        }
+      );
     }
   } else {
     enqueueSnackbar("NFC is not supported on this device.", {
@@ -33,10 +62,13 @@ export async function handleNfcInteraction(
       const ndef = new NDEFReader();
       await ndef.scan();
       setIsNfcActive(true);
-      enqueueSnackbar("NFC scanning started. Please bring a Contact's phone close.", {
-        variant: "info",
-        autoHideDuration: 2000,
-      });
+      enqueueSnackbar(
+        "NFC scanning started. Please bring a Contact's phone close.",
+        {
+          variant: "info",
+          autoHideDuration: 2000,
+        }
+      );
 
       ndef.onreading = (event) => {
         const decoder = new TextDecoder();
