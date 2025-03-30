@@ -5,36 +5,17 @@ export async function handleNfcShare(shareUrl: string) {
     try {
       const ndef = new NDEFReader();
       await ndef.scan();
-      enqueueSnackbar(
-        "NFC scanning for sharing.",
-        {
-          variant: "info",
-          autoHideDuration: 2000,
-        }
-      );
+      enqueueSnackbar("NFC scanning for sharing.", {
+        variant: "info",
+        autoHideDuration: 2000,
+      });
 
-      ndef.onreading = async () => {
-        try {
-          await ndef.write(shareUrl);
-          enqueueSnackbar("NFC tag written with share URL!", {
-            variant: "success",
-            autoHideDuration: 2000,
-          });
-        } catch (error) {
-          console.error("Error writing NFC tag:", error);
-          enqueueSnackbar("Failed to write NFC tag.", {
-            variant: "error",
-            autoHideDuration: 2000,
-          });
-        }
-      };
+      await ndef.write(shareUrl);
+      enqueueSnackbar("NFC tag written with share URL!", {
+        variant: "success",
+        autoHideDuration: 2000,
+      });
 
-      ndef.onreadingerror = () => {
-        enqueueSnackbar("Failed to detect NFC tag. Please try again.", {
-          variant: "error",
-          autoHideDuration: 2000,
-        });
-      };
     } catch (error) {
       console.error("Error initializing NFC scan:", error);
       enqueueSnackbar(
